@@ -263,9 +263,9 @@ fieldset[disabled] .btn-xl.active {
 
 header {
     text-align: center;
-    color: #404040;
+    color: #fff;
     background-attachment: scroll;
-    background-image: url(../img/bg.jpg);
+    background-image: url(../img/bg.jpeg);
     background-position: center center;
     background-repeat: none;
     -webkit-background-size: cover;
