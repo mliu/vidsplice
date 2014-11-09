@@ -1,23 +1,23 @@
 import os, time, math, pickle, pdb
-from datetime import timedelta, datetime
+from datetime import timedelta, datetime, date
 
 class TimeStamp:
   def __init__(self, start, end, vid):
     self.start = [start]
     self.end = [end]
-    self.vid = [vid]
+    self.vid = [vid[:len(vid)-3]]
   def append(self, start, end, vid):
     self.start.append(start)
     self.end.append(end)
-    self.vid.append(vid)
+    self.vid.append(vid[:len(vid)-3])
 
 def getTimeDiff(start, end, length):
-  timeStart = time.strptime("1978 " + start, "%Y %H:%M:%S.%f")
-  timeEnd = time.strptime("1978 " + end, "%Y %H:%M:%S.%f")
+  timeStart = time.strptime(str(date.today().year) + start, "%Y%H:%M:%S.%f")
+  timeEnd = time.strptime(str(date.today().year) + end, "%Y%H:%M:%S.%f")
   timeStart = time.mktime(timeStart)
   timeEnd = time.mktime(timeEnd)
   timeDiff = timeEnd - timeStart
-  return timeDiff / length
+  return timeDiff / (length/3)
 
 def main():
   words = {}
@@ -43,9 +43,9 @@ def main():
         while speech != ['']:
           for index, word in enumerate(speech):
             if word in words:
-              words[word].append(start + timedelta(index * timeDiff), start + timedelta((index+1) * timeDiff), filename)
+              words[word].append(start + timedelta(seconds=(index * timeDiff)), start + timedelta(seconds=((index+1) * timeDiff)), filename)
             else:
-              words[word] = TimeStamp(start + timedelta(index * timeDiff), start + timedelta((index+1) * timeDiff), filename)
+              words[word] = TimeStamp(start + timedelta(seconds=(index * timeDiff)), start + timedelta(seconds=((index+1) * timeDiff)), filename)
           speech = f.readline().rstrip().split(" ")
           length = len(speech)
   pickle.dump(words, open("save.p", "wb"))
