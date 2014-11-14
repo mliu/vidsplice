@@ -1,5 +1,5 @@
-import sqlite3, json
-from flask import Flask, g, request
+import sqlite3, json, os
+from flask import Flask, g, request, render_template
 from contextlib import closing
 import requests, pdb, re, urllib
 from re import findall
@@ -44,7 +44,7 @@ def build_video_func(url):
   #   root = root[1:x]
   # else:
   #   root = root[1:]
-  request = requests.get("http://www.youtube.com/api/timedtext?v=" + url + "&lang=en")
+  request = requests.get("http://video.google.com/timedtext?v=" + url + "&lang=en")
   try:
     request = ET.fromstring(request.content)
     for elem in request:
@@ -60,20 +60,11 @@ def build_video_func(url):
 
     return json.dumps(words)
   except:
-    return "Couldn't retrieve subtitles for this video, sorry!"
-
-def splice_video_func(url, keyword):
-  splice = {}
-
-  for keys in words:
-    intersect = list(set(words[keys]) & set(keyword))
-    splice[keys] = intersect
-
-  return str(splice)
+    return 0
 
 @app.route("/build_video/<video_id>")
 def build_video(video_id):
-  return build_video_func(video_id)
+  return render_template('video.html', video_id=video_id, data=build_video_func(video_id))
 
 if __name__ == '__main__':
     app.run()

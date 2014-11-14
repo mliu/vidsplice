@@ -1,0 +1,37 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Splicing...</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='jquery-1.11.1.min.js') }}">
+    <script>
+      var video_id = "{{video_id}}";
+      var data = {{data|safe}};
+    </script>
+  </head>
+  <body>
+
+  <nav class="navbar navbar-default" role="navigation">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <a class="navbar-brand" href="#">
+          Vidsplice
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <div class="playerContainer">
+    <div id="player"></div>
+    <div class="timeline">
+      <div id="timeline" class="timeline-container">
+      </div>
+    </div>
+  </div>
+
+  <div id="container" class="container"></div>
+
+  <script type="text/javascript" src="{{ url_for('static', filename='vs.js') }}"></script>
+  </body>
+</html>
